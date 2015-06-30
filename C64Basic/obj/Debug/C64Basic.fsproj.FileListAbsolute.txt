@@ -1,0 +1,13 @@
+P:\C64Basic\C64Basic\bin\Debug\C64Basic.XML
+P:\C64Basic\C64Basic\bin\Debug\C64Basic.dll
+P:\C64Basic\C64Basic\bin\Debug\C64Basic.pdb
+P:\C64Basic\C64Basic\bin\Debug\FParsec.dll
+P:\C64Basic\C64Basic\bin\Debug\FParsecCS.dll
+P:\C64Basic\C64Basic\bin\Debug\FSharp.Core.dll
+P:\C64Basic\C64Basic\bin\Debug\FParsec.pdb
+P:\C64Basic\C64Basic\bin\Debug\FParsec.xml
+P:\C64Basic\C64Basic\bin\Debug\FParsecCS.pdb
+P:\C64Basic\C64Basic\bin\Debug\FParsecCS.xml
+P:\C64Basic\C64Basic\bin\Debug\FSharp.Core.xml
+P:\C64Basic\C64Basic\obj\Debug\C64Basic.dll
+P:\C64Basic\C64Basic\obj\Debug\C64Basic.pdb
