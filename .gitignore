@@ -1,0 +1,16 @@
+src/C64Basic/bin/*
+src/C64Basic/obj
+build/*
+packages
+*.suo
+*.userprefs
+*~
+\#*\#
+*.pidb
+*.test-cache
+*.DS_Store
+*.csproj.user
+TestResult.xml
+*.nupkg
+*.old
+StyleCop.Cache
