@@ -143,6 +143,10 @@ let run (program:programline[]) =
         let t = getLibraryType tn
         let pi = t.GetProperty(pn)
         pi.SetValue(null, eval expr |> toObj)
+
+    let print expr =
+        eval expr |> toObj |> System.Console.WriteLine
+
     /// Obtains an array for the specified identifier
     let obtainArray identifier =
         match variables.TryGetValue(identifier) with
@@ -235,6 +239,7 @@ let run (program:programline[]) =
 //        | Label(label) -> ()
 //        | Goto(label) -> pi := findIndex 0 (isFalse,isFalse) (Label(label))
         | Goto(linenum) -> pi := findIndexByLine linenum
+        | Print(expr) -> print expr
     while !pi < program.Length do step (); incr pi
 
 let execute source =

@@ -114,6 +114,8 @@ let pif = pipe4 (str_ws1 "IF") plogical (str_ws "THEN") plinenum (fun _ e _ n ->
 //let pgoto = str_ws1 "GOTO" >>. pidentifier |>> (fun label -> Goto(label))
 let pgoto = str_ws1 "GOTO" >>. plinenum |>> (fun n -> Goto(n))
 
+let pprint = str_ws1 "PRINT" >>. parithmetic |>> (fun e -> Print(e))
+
 let pinstruct = 
     [
         pfor;pendfor
@@ -124,7 +126,8 @@ let pinstruct =
         ppropertyset; passign; psetat
         paction
 //        plabel;
-        pgoto
+        pgoto;
+        pprint
     ]
     |> List.map attempt
     |> choice

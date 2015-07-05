@@ -54,5 +54,6 @@ type instruction =
 //    | GoSub of identifier
 //    | Label of label
     | Goto of linenumber
+    | Print of expr
 
 type programline = linenumber * instruction 
