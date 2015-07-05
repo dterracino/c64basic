@@ -89,13 +89,13 @@ let pindices = many1 pindex
 plocationimpl := pipe2 pidentifier_ws pindices (fun id xs -> Location(id,xs))
 let psetat = pipe3 plocation (str_ws "=") parithmetic (fun loc _ e -> SetAt(loc, e))
 
-//let pfor =
-//    let pfrom = str_ws1 "FOR" >>. pset
-//    let pto = str_ws1 "TO" >>. parithmetic
-//    let pstep = str_ws1 "STEP" >>. parithmetic
-//    let toStep = function None -> Literal(Int(1)) | Some s -> s
-//    pipe3 pfrom pto (opt pstep) (fun f t s -> For(f, t, toStep s))
-//let pendfor = str_ws "EndFor" |>> (fun _ -> EndFor)
+let pfor =
+    let pfrom = str_ws1 "FOR" >>. pset
+    let pto = str_ws1 "TO" >>. parithmetic
+    let pstep = str_ws1 "STEP" >>. parithmetic
+    let toStep = function None -> Literal(Int(1)) | Some s -> s
+    pipe3 pfrom pto (opt pstep) (fun f t s -> For(f, t, toStep s))
+let pendfor = str_ws "NEXT" |>> (fun _ -> Next)
 
 //let pwhile = str_ws1 "While" >>. plogical |>> (fun e -> While(e))
 //let pendwhile = str_ws "EndWhile" |>> (fun _ -> EndWhile)
@@ -116,8 +116,7 @@ let pgoto = str_ws1 "GOTO" >>. plinenum |>> (fun n -> Goto(n))
 
 let pinstruct = 
     [
-//        pfor
-        //;pendfor
+        pfor;pendfor
 //        pwhile;pendwhile
         pif//; pelseif; pelse; pendif
 //        psub; pendsub;

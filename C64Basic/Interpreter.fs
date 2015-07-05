@@ -129,7 +129,7 @@ let run (program:programline[]) =
     /// Variable lookup   
     let variables = VarLookup()
     /// For from EndFor lookup
-//    let forLoops = Dictionary<index, index * identifier * expr * expr>()
+    let forLoops = Dictionary<index, index * identifier * expr * expr>()
 //    /// While from EndWhile lookup
 //    let whileLoops = Dictionary<index, index>()
     /// Call stack for Gosubs
@@ -156,20 +156,22 @@ let run (program:programline[]) =
     let setAt(identifier,index,expr) =        
         let array = obtainArray identifier
         array.[eval index] <- eval expr
-//    /// Finds first index of instructions
-//    let findFirstIndex start (inc,dec) isMatch =
-//        let mutable i = start
-//        let mutable nest = 0
-//        while nest > 0 || isMatch program.[i] |> not do 
-//            if inc program.[i] then nest <- nest + 1
-//            if nest > 0 && dec program.[i] then nest <- nest - 1
-//            i <- i + 1
-//        i
+    /// Finds first index of instructions
+    let findFirstIndex start (inc,dec) isMatch =
+        let mutable i = start
+        let mutable nest = 0
+        while nest > 0 || isMatch (snd program.[i]) |> not do 
+            if inc program.[i] then nest <- nest + 1
+            if nest > 0 && dec program.[i] then nest <- nest - 1
+            i <- i + 1
+        i
 //    /// Finds index of instruction
 //    let findIndex start (inc,dec) instruction =
 //        findFirstIndex start (inc,dec) ((=) instruction)
+    let findIndex start (inc,dec) instruction =
+        findFirstIndex start (inc,dec) ((=) instruction)
 
-    let findIndex linenum =
+    let findIndexByLine linenum =
         let i = Array.findIndex (fun (n,_) -> n = linenum) program
         i - 1
 
@@ -177,8 +179,8 @@ let run (program:programline[]) =
 //    let isElseIf = function ElseIf(_) -> true | _ -> false
 //    let isElse = (=) Else
 //    let isEndIf = (=) EndIf
-//    let isFor = function For(_,_,_) -> true | _ -> false
-//    let isEndFor = (=) EndFor    
+    let isFor = function (_, For(_,_,_)) -> true | _ -> false
+    let isNext = function (_, Next) -> true | _ -> false 
 //    let isWhile = function While(_) -> true | _ -> false
 //    let isEndWhile = (=) EndWhile
     let isFalse _ = false
@@ -204,18 +206,18 @@ let run (program:programline[]) =
 //            let index = findIndex !pi (isIf,isEndIf) EndIf
 //            pi := index
 //        | EndIf -> ()
-//        | For((Set(identifier,expr) as from), target, step) ->
-//            assign from
-//            let index = findIndex (!pi+1) (isFor,isEndFor) EndFor
-//            forLoops.[index] <- (!pi, identifier, target, step)
-//            if toInt(variables.[identifier]) > toInt(eval target) 
-//            then pi := index
-//        | EndFor ->
-//            let start, identifier, target, step = forLoops.[!pi]
-//            let x = variables.[identifier]
-//            variables.[identifier] <- arithmetic x Add (eval step)
-//            if toInt(variables.[identifier]) <= toInt(eval target) 
-//            then pi := start
+        | For((Set(identifier,expr) as from), target, step) ->
+            assign from
+            let index = findIndex (!pi+1) (isFor,isNext) Next
+            forLoops.[index] <- (!pi, identifier, target, step)
+            if toInt(variables.[identifier]) > toInt(eval target) 
+            then pi := index
+        | Next ->
+            let start, identifier, target, step = forLoops.[!pi]
+            let x = variables.[identifier]
+            variables.[identifier] <- arithmetic x Add (eval step)
+            if toInt(variables.[identifier]) <= toInt(eval target) 
+            then pi := start
 //        | While condition ->
 //            let index = findIndex (!pi+1) (isWhile,isEndWhile) EndWhile
 //            whileLoops.[index] <- !pi 
@@ -232,7 +234,7 @@ let run (program:programline[]) =
 //            pi := callStack.Pop()
 //        | Label(label) -> ()
 //        | Goto(label) -> pi := findIndex 0 (isFalse,isFalse) (Label(label))
-        | Goto(linenum) -> pi := findIndex linenum
+        | Goto(linenum) -> pi := findIndexByLine linenum
     while !pi < program.Length do step (); incr pi
 
 let execute source =

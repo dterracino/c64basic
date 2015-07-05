@@ -42,7 +42,7 @@ type instruction =
     | PropertySet of string * string * expr
     | Action of invoke
     | For of assign * expr * expr
-//    | EndFor
+    | Next
     | If of expr * linenumber
 //    | ElseIf of expr
 //    | Else
