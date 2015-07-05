@@ -11,11 +11,11 @@ open Interpreter
 
 let c64basic = """
 5 GOTO 20
-10 TextWindow.WriteLine("SKIPPED")
+10 PRINT "SKIPPED"
 20 FOR A = 1 TO 20
-30 TextWindow.WriteLine(A)
+30 PRINT A
 40 NEXT
-""";;
+"""
 
 execute c64basic
 ```
