@@ -1,4 +1,4 @@
-﻿#r @"P:\C64Basic\C64Basic\bin\Debug\C64Basic.dll";;
+﻿#r @"P:\C64Basic\src\C64Basic\bin\Debug\C64Basic.dll";;
 
 open Interpreter;;
 
