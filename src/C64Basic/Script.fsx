@@ -7,7 +7,7 @@ let c64basic = """
 10 PRINT "SKIPPED"
 15 IF 1 > 2 THEN 20
 20 FOR A = 1 TO 20
-25 LET B = A +1
+25 LET B = A + 1
 30 PRINT B
 40 NEXT
 """;;
