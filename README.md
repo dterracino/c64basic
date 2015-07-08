@@ -8,17 +8,20 @@
 # c64basic
 Hacking on http://fssnip.net/le by Phillip Trelford to turn it into Commodore64 Basic.
 
-For personal fun...
+This is for personal fun... Anyway anyone is invited to participate, just stay close to **C64 Basic** specification.
 
 ## Work in progress
-_Code is in a messy state full of comments._
+This is a work in progress, based on this [wiki](https://www.c64-wiki.com/index.php/C64-Commands).
 
 ```fsharp
+#r @"./src/C64Basic/bin/Debug/C64Basic.dll"
+
 open Interpreter
 
 let c64basic = """
-5 GOTO 20
+5 GOTO 15
 10 PRINT "SKIPPED"
+15 IF 1 > 2 THEN 20
 20 FOR A = 1 TO 20
 30 PRINT A
 40 NEXT
