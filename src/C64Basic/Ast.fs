@@ -44,15 +44,6 @@ type instruction =
     | For of assign * expr * expr
     | Next
     | If of expr * linenumber
-//    | ElseIf of expr
-//    | Else
-//    | EndIf
-//    | While of expr
-//    | EndWhile
-//    | Sub of identifier
-//    | EndSub
-//    | GoSub of identifier
-//    | Label of label
     | Goto of linenumber
     | Print of expr
 
