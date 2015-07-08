@@ -70,12 +70,13 @@ oppl.AddOperator(InfixOperator("AND", ws, 1, Assoc.Left, fun x y -> Logical(x,An
 oppl.AddOperator(InfixOperator("OR", ws, 1, Assoc.Left, fun x y -> Logical(x,Or,y)))
 
 let pcos = pipe4 (str_ws "COS") (str_ws "(") parithmetic (str_ws ")") (fun _ _ e _ -> Cos(e))
+let psin = pipe4 (str_ws "SIN") (str_ws "(") parithmetic (str_ws ")") (fun _ _ e _ -> Sin(e))
 
 let pmember = pipe3 (pidentifier_ws) (pchar '.') (pidentifier_ws) (fun tn _ mn -> tn,mn) 
 let ptuple = between (str_ws "(") (str_ws ")") (sepBy parithmetic (str_ws ","))
 pinvokeimpl := 
     choice [
-        pcos
+        pcos;psin
         pipe2 pmember (opt ptuple)
             (fun (tn,mn) args -> 
             match args with

@@ -129,6 +129,9 @@ and invoke state invoke =
     | Cos(x) ->
         let c = eval state x |> toDouble |> cos
         (Double(c))
+    | Sin(x) ->
+        let s = eval state x |> toDouble |> sin
+        (Double(s))
 
 /// Runs program
 let run (program:programline[]) =
