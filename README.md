@@ -11,7 +11,7 @@ Hacking on http://fssnip.net/le by Phillip Trelford to turn it into Commodore64 
 This is for personal fun... Anyway anyone is invited to participate, just stay close to **C64 Basic** specification.
 
 ## Work in progress
-This is a work in progress, based on this [wiki](https://www.c64-wiki.com/index.php/C64-Commands).
+This is a work in progress, based on this [wiki](https://www.c64-wiki.com/index.php/C64-Commands). TODO list is [here](https://github.com/gsscoder/c64basic/blob/master/TODO).
 
 ```fsharp
 #r @"./src/C64Basic/bin/Debug/C64Basic.dll"
