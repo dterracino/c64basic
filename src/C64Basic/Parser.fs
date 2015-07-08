@@ -97,21 +97,8 @@ let pfor =
     pipe3 pfrom pto (opt pstep) (fun f t s -> For(f, t, toStep s))
 let pendfor = str_ws "NEXT" |>> (fun _ -> Next)
 
-//let pwhile = str_ws1 "While" >>. plogical |>> (fun e -> While(e))
-//let pendwhile = str_ws "EndWhile" |>> (fun _ -> EndWhile)
-
-//let pif = str_ws1 "IF" >>. plogical .>> str_ws "THEN" |>> (fun e -> If(e))
 let pif = pipe4 (str_ws1 "IF") plogical (str_ws "THEN") plinenum (fun _ e _ n -> If(e, n))
-//let pelseif = str_ws1 "ElseIf" >>. pcomparison .>> str_ws "Then" |>> (fun e -> ElseIf(e))
-//let pelse = str_ws "Else" |>> (fun _ -> Else)
-//let pendif = str_ws "EndIf" |>> (fun _ -> EndIf)
 
-//let psub = str_ws1 "Sub" >>. pidentifier |>> (fun name -> Sub(name))
-//let pendsub = str_ws "EndSub" |>> (fun _ -> EndSub)
-//let pgosub = pidentifier_ws .>> str_ws "()" |>> (fun routine -> GoSub(routine))
-
-//let plabel = pidentifier_ws .>> str_ws ":" |>> (fun label -> Label(label))
-//let pgoto = str_ws1 "GOTO" >>. pidentifier |>> (fun label -> Goto(label))
 let pgoto = str_ws1 "GOTO" >>. plinenum |>> (fun n -> Goto(n))
 
 let pprint = str_ws1 "PRINT" >>. parithmetic |>> (fun e -> Print(e))
@@ -119,25 +106,18 @@ let pprint = str_ws1 "PRINT" >>. parithmetic |>> (fun e -> Print(e))
 let pinstruct = 
     [
         pfor;pendfor
-//        pwhile;pendwhile
-        pif//; pelseif; pelse; pendif
-//        psub; pendsub;
-//        pgosub                 
+        pif                
         ppropertyset; passign; psetat
         paction
-//        plabel;
-        pgoto;
+        pgoto
         pprint
     ]
     |> List.map attempt
     |> choice
 
-//type Line = Blank | Instruction of instruction
 type Line = Blank | Instruction of programline
-//let pcomment = pchar '\'' >>. skipManySatisfy (fun c -> c <> '\n') >>. pchar '\n'
 let pcomment = str_ws "REM" >>. skipManySatisfy (fun c -> c <> '\n') >>. pchar '\n'
 let peol = pcomment <|> (pchar '\n')
-//let pinstruction = ws >>. pinstruct .>> peol |>> (fun i -> Instruction i)
 let pinstruction = pipe4 plinenum ws pinstruct peol (fun n _ i _ -> Instruction(n, i))
 let pblank = ws >>. peol |>> (fun _ -> Blank)
 let plines = many (pinstruction <|> pblank) .>> eof
