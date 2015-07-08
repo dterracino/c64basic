@@ -33,6 +33,7 @@ and location =
 and invoke =
     | Method of string * string * expr[]
     | PropertyGet of string * string
+    | Cos of expr
 type assign =
     | Set of identifier * expr
 /// instruction

@@ -69,17 +69,23 @@ oppl.TermParser <- terml
 oppl.AddOperator(InfixOperator("AND", ws, 1, Assoc.Left, fun x y -> Logical(x,And,y)))
 oppl.AddOperator(InfixOperator("OR", ws, 1, Assoc.Left, fun x y -> Logical(x,Or,y)))
 
+let pcos = pipe4 (str_ws "COS") (str_ws "(") parithmetic (str_ws ")") (fun _ _ e _ -> Cos(e))
+
 let pmember = pipe3 (pidentifier_ws) (pchar '.') (pidentifier_ws) (fun tn _ mn -> tn,mn) 
 let ptuple = between (str_ws "(") (str_ws ")") (sepBy parithmetic (str_ws ","))
 pinvokeimpl := 
-    pipe2 pmember (opt ptuple)
-        (fun (tn,mn) args -> 
-        match args with
-        | Some args -> Method(tn, mn, args |> List.toArray)
-        | None -> PropertyGet(tn,mn)
-        )
+    choice [
+        pcos
+        pipe2 pmember (opt ptuple)
+            (fun (tn,mn) args -> 
+            match args with
+            | Some args -> Method(tn, mn, args |> List.toArray)
+            | None -> PropertyGet(tn,mn)
+            )
+    ]
 
 let paction = pinvoke |>> (fun x -> Action(x))
+
 let pset = pipe3 pidentifier_ws (str_ws "=") parithmetic (fun id _ e -> Set(id, e))
 let passign = pipe3 pidentifier_ws (str_ws "=") parithmetic (fun id _ e -> Assign(Set(id, e)))
 let plet = pipe4 (str_ws1 "LET") pidentifier_ws (str_ws "=") parithmetic (fun _ id _ e -> Assign(Set(id, e)))

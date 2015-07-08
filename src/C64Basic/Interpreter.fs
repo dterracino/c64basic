@@ -48,6 +48,11 @@ let toInt = function
 let toBool = function
     | Bool x -> x
     | _ -> raise (new System.NotSupportedException())
+/// Converts value to double
+let toDouble = function
+    | Double x -> x
+    | Int x -> double x
+    | _ -> raise (new System.NotSupportedException())
 /// Converts value to array
 let toArray = function
     | Array x -> x
@@ -121,6 +126,9 @@ and invoke state invoke =
         let t = getLibraryType tn
         let pi = t.GetProperty(name)
         pi.GetValue(null) |> fromObj
+    | Cos(x) ->
+        let c = eval state x |> toDouble |> cos
+        (Double(c))
 
 /// Runs program
 let run (program:programline[]) =
