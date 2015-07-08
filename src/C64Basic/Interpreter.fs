@@ -53,6 +53,13 @@ let toDouble = function
     | Double x -> x
     | Int x -> double x
     | _ -> raise (new System.NotSupportedException())
+/// Converts value to string
+let toString = function
+    | Bool x -> string x
+    | Int x -> string x
+    | Double x -> string x
+    | String x -> x
+    | _ -> raise (new System.NotSupportedException())
 /// Converts value to array
 let toArray = function
     | Array x -> x
@@ -137,6 +144,8 @@ and invoke state invoke =
 let run (program:programline[]) =
     /// Program index
     let pi = ref 0
+    /// Kernel
+    let kernel = System.createKernel
     /// Variable lookup   
     let variables = VarLookup()
     /// For from EndFor lookup
@@ -152,7 +161,7 @@ let run (program:programline[]) =
         pi.SetValue(null, eval expr |> toObj)
     /// Print built-in
     let print expr =
-        eval expr |> toObj |> System.Console.WriteLine
+        eval expr |> toString |> kernel.Screen.WriteLine
     /// Obtains an array for the specified identifier
     let obtainArray identifier =
         match variables.TryGetValue(identifier) with
