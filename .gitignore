@@ -3,6 +3,7 @@ src/C64Basic/obj
 build/*
 packages
 *.suo
+*.v12.suo
 *.userprefs
 *~
 \#*\#
