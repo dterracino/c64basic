@@ -199,6 +199,7 @@ let run (program:programline[]) =
             then pi := start
         | Goto(linenum) -> pi := findIndexByLine linenum
         | Print(expr) -> print expr
+        | _ -> failwith "syntax error"
     while !pi < program.Length do step (); incr pi
 
 let execute source =

@@ -38,6 +38,7 @@ type assign =
 /// instruction
 type instruction =
     | Assign of assign
+    | Let of assign
     | SetAt of location * expr
     | PropertySet of string * string * expr
     | Action of invoke

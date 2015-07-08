@@ -82,6 +82,7 @@ pinvokeimpl :=
 let paction = pinvoke |>> (fun x -> Action(x))
 let pset = pipe3 pidentifier_ws (str_ws "=") parithmetic (fun id _ e -> Set(id, e))
 let passign = pipe3 pidentifier_ws (str_ws "=") parithmetic (fun id _ e -> Assign(Set(id, e)))
+let plet = pipe4 (str_ws1 "LET") pidentifier_ws (str_ws "=") parithmetic (fun _ id _ e -> Assign(Set(id, e)))
 let ppropertyset = pipe3 pmember (str_ws "=") parithmetic (fun (tn,pn) _ e -> PropertySet(tn,pn,e))
 
 let pindex = str_ws "[" >>. parithmetic .>> str_ws "]"
@@ -107,7 +108,7 @@ let pinstruct =
     [
         pfor;pendfor
         pif                
-        ppropertyset; passign; psetat
+        ppropertyset; passign; psetat; plet
         paction
         pgoto
         pprint
