@@ -133,16 +133,19 @@ and invoke state invoke =
         let t = getLibraryType tn
         let pi = t.GetProperty(name)
         pi.GetValue(null) |> fromObj
-    | Abs(x) ->
-        let a = eval state x |> toDouble |> abs
-        (Double(a))
-    | Cos(x) ->
-        let c = eval state x |> toDouble |> cos
-        (Double(c))
-    | Sin(x) ->
-        let s = eval state x |> toDouble |> sin
-        (Double(s))
-
+    | Abs(e) ->
+        let v = eval state e |> toDouble |> abs
+        (Double(v))
+    | Cos(e) ->
+        let v = eval state e |> toDouble |> cos
+        (Double(v))
+    | Sin(e) ->
+        let v = eval state e |> toDouble |> sin
+        (Double(v))
+    | Spc(e) ->
+        let v = eval state e |> toInt
+        if v > 255 then failwith "illegal quantity error"
+        (String(String.replicate v " "))
 /// Runs program
 let run (program:programline[]) =
     /// Program index
