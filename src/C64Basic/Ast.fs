@@ -33,6 +33,7 @@ and location =
 and invoke =
     | Method of string * string * expr[]
     | PropertyGet of string * string
+    | Abs of expr
     | Cos of expr
     | Sin of expr
 type assign =

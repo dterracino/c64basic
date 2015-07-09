@@ -1,9 +1,9 @@
+C64Basic.v12.suo
 src/C64Basic/bin/*
 src/C64Basic/obj
 build/*
 packages
 *.suo
-*.v12.suo
 *.userprefs
 *~
 \#*\#

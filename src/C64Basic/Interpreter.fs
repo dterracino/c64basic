@@ -133,6 +133,9 @@ and invoke state invoke =
         let t = getLibraryType tn
         let pi = t.GetProperty(name)
         pi.GetValue(null) |> fromObj
+    | Abs(x) ->
+        let a = eval state x |> toDouble |> abs
+        (Double(a))
     | Cos(x) ->
         let c = eval state x |> toDouble |> cos
         (Double(c))
