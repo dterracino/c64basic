@@ -60,6 +60,9 @@ let toString = function
     | Double x -> string x
     | String x -> x
     | _ -> raise (new System.NotSupportedException())
+let toStringStrict = function
+    | String x -> x
+    | _ -> raise (new System.NotSupportedException())
 /// Converts value to array
 let toArray = function
     | Array x -> x
@@ -142,6 +145,9 @@ and invoke state invoke =
     | Sin(e) ->
         let v = eval state e |> toDouble |> sin
         (Double(v))
+    | Len(e) ->
+        let v = eval state e |> toStringStrict |> String.length
+        (Int(v))
     | Spc(e) ->
         let v = eval state e |> toInt
         if v > 255 then failwith "illegal quantity error"

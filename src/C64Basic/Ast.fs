@@ -36,6 +36,7 @@ and invoke =
     | Abs of expr
     | Cos of expr
     | Sin of expr
+    | Len of expr
     | Spc of expr
 type assign =
     | Set of identifier * expr

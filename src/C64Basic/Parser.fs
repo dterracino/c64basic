@@ -74,6 +74,7 @@ let pabs = pipe4 (str_ws "ABS") (str_ws "(") parithmetic (str_ws ")") (fun _ _ e
 let pcos = pipe4 (str_ws "COS") (str_ws "(") parithmetic (str_ws ")") (fun _ _ e _ -> Cos(e))
 let psin = pipe4 (str_ws "SIN") (str_ws "(") parithmetic (str_ws ")") (fun _ _ e _ -> Sin(e))
 // strings
+let plen = pipe4 (str_ws "LEN") (str_ws "(") parithmetic (str_ws ")") (fun _ _ e _ -> Len(e))
 let pspc = pipe4 (str_ws "SPC") (str_ws "(") parithmetic (str_ws ")") (fun _ _ e _ -> Spc(e))
 
 let pmember = pipe3 (pidentifier_ws) (pchar '.') (pidentifier_ws) (fun tn _ mn -> tn,mn) 
@@ -81,7 +82,7 @@ let ptuple = between (str_ws "(") (str_ws ")") (sepBy parithmetic (str_ws ","))
 pinvokeimpl := 
     choice [
         pabs;pcos;psin
-        pspc
+        plen;pspc
         pipe2 pmember (opt ptuple)
             (fun (tn,mn) args -> 
             match args with
